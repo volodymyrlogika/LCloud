@@ -10,9 +10,12 @@
             size_hint: 0.9, None
             pos_hint: {'center_x': 0.5}
             MDTextField:
+                id: city
                 hint_text: "Введіть місто"
                 mode: "fill"
             MDIconButton:
+                id: search_btn
+                on_press: root.search()
                 icon: "search-web"
                 icon_size: "32sp"
                 md_bg_color: app.theme_cls.primary_color
@@ -21,12 +24,14 @@
             pos_hint: {'center_x': 0.5}
             size_hint: 0.9, 0.4
             MDLabel:
+                id: temp
                 text: "14°C"
                 font_style: 'H1'
                 halign: 'center'
             MDLabel:
+                id: desc
                 text: "Ясно "
                 font_style: 'H4'
                 halign: 'center'
     
-            
+        
