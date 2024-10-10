@@ -23,15 +23,36 @@
             orientation: 'vertical'
             pos_hint: {'center_x': 0.5}
             size_hint: 0.9, 0.4
+            AsyncImage:
+                id: icon 
+                size: ("150sp", "150sp")
+                fit_mode: 'contain'
+                source: 'https://openweathermap.org/img/wn/10d@2x.png'
             MDLabel:
                 id: temp
                 text: "14°C"
                 font_style: 'H1'
                 halign: 'center'
             MDLabel:
+                id: feels_like
+                text: "Відчувається як"
+                font_style: 'Caption'
+                halign: 'center'
+            MDLabel:
                 id: desc
                 text: "Ясно "
                 font_style: 'H4'
                 halign: 'center'
+            MDLabel:
+                id: humidity
+                text: "Вологість:"
+                font_style: 'Body1'
+                halign: 'center'
+            MDLabel:
+                id: wind
+                text: "Вітер:"
+                font_style: 'Body1'
+                halign: 'center'
+            
     
         

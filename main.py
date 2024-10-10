@@ -24,10 +24,24 @@ class WeatherScreen(MDScreen):
     def search(self):
         city = self.ids.city.text
         weather = self.get_weather(city)
-        
+        # додаємо температуру у вікно
         temp = weather["main"]["temp"]
         self.ids.temp.text = f"{round(temp)}°C"
-        
+        # як відчувєаться температура 
+        feels_like = weather["main"][ "feels_like"]
+        self.ids.feels_like.text = f"Відчувається як {round(feels_like)}°C"
+         # опис погоди
+        desc = weather["weather"][0]["description"]
+        self.ids.desc.text = desc.capitalize()
+        # вологість повітря
+        humidity = weather["main"]["humidity"]
+        self.ids.humidity.text =  f"Вологість: {humidity}%"
+        # швидкість вітру      
+        wind = weather["wind"]["speed"]
+        self.ids.wind.text =  f"Вітер: {wind} м/c"
+        # картинка погоди
+        icon = weather["weather"][0]["icon"]
+        self.ids.icon.source = f'https://openweathermap.org/img/wn/{icon}@2x.png'
 
 
 
