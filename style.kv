@@ -22,10 +22,12 @@
         MDBoxLayout:
             orientation: 'vertical'
             pos_hint: {'center_x': 0.5}
-            size_hint: 0.9, 0.4
+            size_hint: 0.9, 0.9
             AsyncImage:
                 id: icon 
+                size_hint: None, None
                 size: ("150sp", "150sp")
+                pos_hint: {'center_x': 0.5}
                 fit_mode: 'contain'
                 source: 'https://openweathermap.org/img/wn/10d@2x.png'
             MDLabel:
@@ -53,6 +55,53 @@
                 text: "Вітер:"
                 font_style: 'Body1'
                 halign: 'center'
-            
+            Widget:
+                size_hint_y: None
+                height: "50sp"
+            MDFillRoundFlatButton:
+                text: "Дивитися прогноз"
+                pos_hint: {'center_x': 0.5}
+                on_press: root.show_forecast()
+            Widget:
+                size_hint_y: None
+                height: "50sp"
     
-        
+
+<ForecastScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing: "20sp"
+        MDTopAppBar:
+            title: "Прогноз погоди"
+            left_action_items: [["arrow-left", lambda x: root.back()]]
+        ScrollView:
+            MDBoxLayout:
+                id: weather_list
+                orientation: 'vertical'
+                pos_hint: {'center_x': 0.5}
+                size_hint: 0.9, 0.9
+
+
+<WeatherCard>:
+    padding: 4
+    size_hint: 0.9, None
+    size_y: "100dp"
+    MDBoxLayout:
+        padding: 10
+        AsyncImage:
+            id: icon 
+            size_hint: None, None
+            size: ("50sp", "50sp")
+            pos_hint: {'center_x': 0.5}
+            fit_mode: 'contain'
+            source: 'https://openweathermap.org/img/wn/10d@2x.png'
+        MDLabel:
+            id: temp
+            text: "14°C"
+            font_style: 'H6'
+            halign: 'center'
+        MDLabel:
+            id: desc
+            text: "Ясно "
+            font_style: 'H6'
+            halign: 'center'
