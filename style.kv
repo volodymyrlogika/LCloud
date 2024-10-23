@@ -4,7 +4,6 @@
         spacing: "20sp"
         MDTopAppBar:
             title: "LCloud"
-            right_action_items: [["dots-vertical", lambda x: app.callback()]]
         MDBoxLayout:
             spacing: "10sp"
             size_hint: 0.9, None
@@ -20,9 +19,12 @@
                 icon_size: "32sp"
                 md_bg_color: app.theme_cls.primary_color
         MDBoxLayout:
+            id: weather_panel
+            opacity: 0.0
             orientation: 'vertical'
             pos_hint: {'center_x': 0.5}
             size_hint: 0.9, 0.9
+            spacing: "10sp"
             AsyncImage:
                 id: icon 
                 size_hint: None, None
@@ -75,19 +77,28 @@
             title: "Прогноз погоди"
             left_action_items: [["arrow-left", lambda x: root.back()]]
         ScrollView:
+            pos_hint: {'center_x': 0.5}
+            size_hint: 0.9, 0.9
             MDBoxLayout:
                 id: weather_list
                 orientation: 'vertical'
                 pos_hint: {'center_x': 0.5}
-                size_hint: 0.9, 0.9
+                size_hint: 1, None
+                height: self.minimum_height  # Висота автоматично підлаштовується під контент
+                spacing: "10dp"
 
 
 <WeatherCard>:
     padding: 4
-    size_hint: 0.9, None
+    size_hint: 1, None
     size_y: "100dp"
     MDBoxLayout:
         padding: 10
+        MDLabel:
+            id: date
+            text: "Дата"
+            font_style: 'Subtitle1'
+            halign: 'center'
         AsyncImage:
             id: icon 
             size_hint: None, None
@@ -98,10 +109,10 @@
         MDLabel:
             id: temp
             text: "14°C"
-            font_style: 'H6'
+            font_style: 'H5'
             halign: 'center'
         MDLabel:
             id: desc
             text: "Ясно "
-            font_style: 'H6'
+            font_style: 'Body1'
             halign: 'center'

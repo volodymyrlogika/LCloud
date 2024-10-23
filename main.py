@@ -21,19 +21,26 @@ class WeatherScreen(MDScreen):
         }
         data = requests.get(CURRENT_WEATHER_URL, params)
         response = data.json()
-        print(response)
         return response
     
     def search(self):
-        self.city = self.ids.city.text
-        weather = self.get_weather(self.city)
+        try:
+            self.city = self.ids.city.text
+            weather = self.get_weather(self.city)
+            # додаємо температуру у вікно
+            temp = weather["main"]["temp"]
+        except:
+            # якщо не введено місто, показуємо погоду у Львові
+            self.city = "Львів"
+            weather = self.get_weather(self.city)
+
         # додаємо температуру у вікно
         temp = weather["main"]["temp"]
         self.ids.temp.text = f"{round(temp)}°C"
         # як відчувєаться температура 
         feels_like = weather["main"][ "feels_like"]
         self.ids.feels_like.text = f"Відчувається як {round(feels_like)}°C"
-         # опис погоди
+        # опис погоди
         desc = weather["weather"][0]["description"]
         self.ids.desc.text = desc.capitalize()
         # вологість повітря
@@ -46,9 +53,14 @@ class WeatherScreen(MDScreen):
         icon = weather["weather"][0]["icon"]
         self.ids.icon.source = f'https://openweathermap.org/img/wn/{icon}@2x.png'
 
-    def show_forecast(self):
+        # попередньо завантажимо прогноз погоди на інший екран
         forecast_data = self.forecast.get_forecast(self.city)
         self.forecast.show_forecast(forecast_data)
+        #відображаємо панель з погодою 
+        self.ids.weather_panel.opacity= 1
+        
+
+    def show_forecast(self):
         self.manager.transition.direction = 'left'
         self.manager.current = 'forecast'
         
@@ -62,7 +74,8 @@ class WeatherCard(MDCard):
         self.ids.desc.text = desc.capitalize()
         icon = weather["weather"][0]["icon"]
         self.ids.icon.source = f'https://openweathermap.org/img/wn/{icon}@2x.png'
-
+        date_time = weather["dt_txt"]
+        self.ids.date.text = f"{date_time[5:16]}"
         
 class ForecastScreen(MDScreen):
     def __init__(self, *args, **kwargs):
@@ -76,12 +89,12 @@ class ForecastScreen(MDScreen):
         }
         data = requests.get(FORECAST_URL, params)
         response = data.json()
-        print(response)
         return response['list']
     
     def show_forecast(self, forecast):
-        #додаємо картки з прогнозом погоди на екран
-        for data in forecast:
+        #додаємо картки з прогнозом погоди кожні 6 годин
+        for i in range(0, len(forecast), 2):
+            data = forecast[i]
             card = WeatherCard(data)
             self.ids.weather_list.add_widget(card)
 
